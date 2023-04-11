@@ -8,19 +8,24 @@ hog = cv2.HOGDescriptor()
 hog.setSVMDetector(cv2.HOGDescriptor_getDefaultPeopleDetector())
 
 #read test image
-image = cv2.imread('pedestrian-header.png')
+image = cv2.imread('pedestrian-header3.png')
 
-#cap = cv2.VideoCapture(0)
-#ret, frame = cap.read()
-#if ret:
-#    cv2.imwrite('image.png', frame)
+#COMMENTED PORTION FROM LINES 13 - 27 SHOW WEBCAM INPUT WITH PEDESTRIAN DETECTION
+#CAN NOT BE TESTED IN FULL UNTIL RPI CAM IS AVAILABLE
+
+    #cap = cv2.VideoCapture(0)
+    #ret, frame = cap.read()
+    #if ret:
+    #    cv2.imwrite('image.png', frame)
 
 
-#cap.release()
+    #cap.release()
 
-#image = cv2.imread('image.png')
-#Resize image for detection
-#image = cv2.resize(image, (640,480))
+    #image = cv2.imread('image.png')
+    #Resize image for detection
+    #image = cv2.resize(image, (640,480))
+
+#END OF WEBCAM PORTION
 
 #Detecting all the regions in the image that has pedestrians
 (regions,_) = hog.detectMultiScale(image, winStride=(4,4), padding=(4,4), scale=1.05)
