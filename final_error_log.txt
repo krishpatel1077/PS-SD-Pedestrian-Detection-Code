@@ -1,0 +1,23 @@
+/home/ece2799team5/Documents/ECE 2799 TEAM 5/final.py:23: RuntimeWarning: This channel is already in use, continuing anyway.  Use GPIO.setwarnings(False) to disable warnings.
+  GPIO.setup(pin_flash, GPIO.OUT)
+/home/ece2799team5/Documents/ECE 2799 TEAM 5/final.py:25: RuntimeWarning: This channel is already in use, continuing anyway.  Use GPIO.setwarnings(False) to disable warnings.
+  GPIO.setup(pin_confirmation, GPIO.OUT)
+mmal: mmal_vc_port_enable: failed to enable port vc.null_sink:in:0(OPQV): ENOSPC
+mmal: mmal_port_enable: failed to enable connected port (vc.null_sink:in:0(OPQV))0x17b23a0 (ENOSPC)
+mmal: mmal_connection_enable: output port couldn't be enabled
+Traceback (most recent call last):
+  File "/home/ece2799team5/Documents/ECE 2799 TEAM 5/final.py", line 83, in <module>
+    capture_image()
+  File "/home/ece2799team5/Documents/ECE 2799 TEAM 5/final.py", line 55, in capture_image
+    with picamera.PiCamera() as camera:
+  File "/usr/lib/python3/dist-packages/picamera/camera.py", line 433, in __init__
+    self._init_preview()
+  File "/usr/lib/python3/dist-packages/picamera/camera.py", line 512, in _init_preview
+    self._preview = PiNullSink(
+  File "/usr/lib/python3/dist-packages/picamera/renderers.py", line 558, in __init__
+    self.renderer.inputs[0].connect(source).enable()
+  File "/usr/lib/python3/dist-packages/picamera/mmalobj.py", line 2210, in enable
+    mmal_check(
+  File "/usr/lib/python3/dist-packages/picamera/exc.py", line 184, in mmal_check
+    raise PiCameraMMALError(status, prefix)
+picamera.exc.PiCameraMMALError: Failed to enable connection: Out of resources
