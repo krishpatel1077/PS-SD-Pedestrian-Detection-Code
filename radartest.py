@@ -27,4 +27,4 @@ GPIO.add_event_detect(pin, GPIO.BOTH, callback=gpiocallback)
 
 while True:
     print('sleeping')
-    time.sleep(2)
+    sleep(2)
