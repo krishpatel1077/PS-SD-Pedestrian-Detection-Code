@@ -2,7 +2,9 @@ import cv2
 import numpy as np
 import RPi.GPIO as GPIO
 from time import sleep
-import picamera
+from picamera2 import Picamera2
+from libcamera import controls
+import os
 
 #define pins
 pin_rcwl = 17
@@ -16,7 +18,8 @@ r_camera = 0
 r_flash = 0
 r_confirmation = 0
 #set GPIO to BCM numbering
-GPIO.setmode(GPIO.BCM) 
+GPIO.setmode(GPIO.BCM)
+GPIO.setwarnings(False)
 #set up the pushbutton to pin 22 
 GPIO.setup(pin_button, GPIO.IN, pull_up_down=GPIO.PUD_DOWN);   
 #set up the FLASH LED to pin 27
@@ -40,7 +43,11 @@ def flasher():
 def button_callback(channel):
     global r_button
     r_button = 1
+    print('Button Pressed')
     GPIO.output(pin_confirmation, GPIO.HIGH)
+    sleep(1)
+    flasher()
+    GPIO.output(pin_confirmation, GPIO.LOW)
 
 #helper function - radar callback
 def radar_callback(thepin):
@@ -52,32 +59,25 @@ def radar_callback(thepin):
 
 #setup webcam stuff
 def capture_image():
-    with picamera.PiCamera() as camera:
-        #Set camera parameters for HDR capture
-        camera.resolution = (640, 480)
-        camera.framerate = 30
-        camera.shutter_speed = camera.exposure_speed
-        camera.iso = 800
-        camera.exposure_mode = 'off'
-        g = camera.awb_gains
-        camera.awb_mode = 'off'
-        camera.awb_gains = 0
-        
-        sleep(2)
-        stream = np.empty((camera.resolution[1], camera.resolution[0],3), dtype=np.unit8)
-        camera.capture(stream, 'rgb', use_video_port=True, bayer=False)
-        
-        stream.tofile('image.png')
-        camera.close()
+    picam2 = Picamera2()
+    os.system("v4l2-ctl --set-ctrl wide_dynamic_range=1 -d /dev/v4l-subdev0")
+    print("Setting HDR to ON")
+    picam2.start(show_preview=True)
+    picam2.set_controls({"AfMode": controls.AfModeEnum.Continuous, "AfSpeed": controls.AfSpeedEnum.Fast})
+    picam2.start_and_capture_files("image.png", num_files=3, delay=1)
+    picam2.stop_preview()
+    picam2.stop()
+    print("Setting HDR to OFF")
+    os.system("v4l2-ctl --set-ctrl wide_dynamic_range=0 -d /dev/v4l-subdev0")
 #-------------------------------------HELPER FUNCTION (END)---------------
 
 #FIND INITIAL CONDITION
 index = 0
 #Main Loop
+GPIO.add_event_detect(pin_button, GPIO.RISING, callback = button_callback, bouncetime=200)
 while True:
     #delay of one second
     #call button - physical verification
-    GPIO.add_event_detect(pin_button, GPIO.RISING, callback = button_callback, bouncetime=200)
     sleep(1)
     #camera input - if detection, set r_camera to 1
     capture_image()
@@ -86,6 +86,11 @@ while True:
     image = cv2.resize(image, (640,480))
     #Detecting all the regions in the image that has pedestrians
     (regions,_) = hog.detectMultiScale(image, winStride=(4,4), padding=(4,4), scale=1.05)
+    for (x,y,w,h) in regions:
+        cv2.rectangle(image, (x,y), (x+w,y+h), (0,0,255), 2)
+        rects = np.array([x,y,x+w,y+h])
+                         
+    cv2.imwrite('pedestriantest_output.png', image);
     #if detection
     if len(regions) > 0:
         r_camera = 1
@@ -95,7 +100,7 @@ while True:
 
         #Option 1 - BYPASS RADAR SENSOR
         flasher()
-
+        GPIO.output(pin_confirmation, GPIO.LOW)
         #Option 2 - USE RADAR SENSOR (BIG GAMBLE)
         #call radar sensor
         #while index < 1:
