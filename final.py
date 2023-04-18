@@ -91,11 +91,20 @@ while True:
     image = cv2.resize(image, (640,480))
     #Detecting all the regions in the image that has pedestrians
     (regions,_) = hog.detectMultiScale(image, winStride=(4,4), padding=(4,4), scale=1.05)
+    #if detection
     if len(regions) > 0:
         r_camera = 1
+        #activate confirmation LED
         GPIO.output(pin_confirmation, GPIO.HIGH)
+
+
+        #Option 1 - BYPASS RADAR SENSOR
+        #GPIO.output(flasher)
+
+        #Option 2 - USE RADAR SENSOR (BIG GAMBLE)
         #call radar sensor
         while index < 1:
+            #until radar + led detect
             GPIO.add_event_detect(pin_rcwl, GPIO.BOTH, callback=radar_callback)
             if (r_radar == 1):
                 flasher()
