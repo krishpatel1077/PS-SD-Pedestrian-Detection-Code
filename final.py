@@ -81,7 +81,7 @@ index = 0
 #Main Loop
 while True:
     #delay of one second
-    #call button
+    #call button - physical verification
     GPIO.add_event_detect(pin_button, GPIO.RISING, callback = button_callback, bouncetime=200)
     sleep(1)
     #camera input - if detection, set r_camera to 1
