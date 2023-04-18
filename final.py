@@ -53,7 +53,7 @@ def radar_callback(thepin):
 #setup webcam stuff
 def capture_image():
     with picamera.PiCamera() as camera:
-        # Set camera parameters for HDR capture
+        #Set camera parameters for HDR capture
         camera.resolution = (640, 480)
         camera.framerate = 30
         camera.shutter_speed = camera.exposure_speed
@@ -63,17 +63,12 @@ def capture_image():
         camera.awb_mode = 'off'
         camera.awb_gains = 0
         
-        # Sleep for 5 seconds to allow camera to stabilize
-        sleep(5)
+        sleep(2)
+        stream = np.empty((camera.resolution[1], camera.resolution[0],3), dtype=np.unit8)
+        camera.capture(stream, 'rgb', use_video_port=True, bayer=False)
         
-        # Capture image
-        stream = io.BytesIO()
-        camera.capture(stream, format='png')
-        stream.seek(0)
-        
-        # Save image as "image.png"
-        with open('image.png', 'wb') as f:
-            f.write(stream.read()) 
+        stream.tofile('image.png')
+        camera.close()
 #-------------------------------------HELPER FUNCTION (END)---------------
 
 #FIND INITIAL CONDITION
