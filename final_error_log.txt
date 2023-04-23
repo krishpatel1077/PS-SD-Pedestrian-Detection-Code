@@ -21,3 +21,45 @@ Traceback (most recent call last):
   File "/usr/lib/python3/dist-packages/picamera/exc.py", line 184, in mmal_check
     raise PiCameraMMALError(status, prefix)
 picamera.exc.PiCameraMMALError: Failed to enable connection: Out of resources
+
+-----------------------4/22/2023---------------------------
+[0:18:16.969908083] [1587]  INFO Camera camera_manager.cpp:299 libcamera v0.0.4+22-923f5d70
+[0:18:17.097139680] [1591]  INFO RPI raspberrypi.cpp:1476 Registered camera /base/soc/i2c0mux/i2c@1/imx708@1a to Unicam device /dev/media4 and ISP device /dev/media0
+Setting HDR to ON
+[0:18:17.115905800] [1587]  INFO Camera camera.cpp:1028 configuring streams: (0) 640x480-XBGR8888
+[0:18:17.116377806] [1591]  INFO RPI raspberrypi.cpp:851 Sensor: /base/soc/i2c0mux/i2c@1/imx708@1a - Selected sensor format: 2304x1296-SBGGR10_1X10 - Selected unicam format: 2304x1296-pBAA
+[0:18:17.629452043] [1597]  INFO Camera camera.cpp:1028 configuring streams: (0) 640x480-XBGR8888
+[0:18:17.630561158] [1591]  INFO RPI raspberrypi.cpp:851 Sensor: /base/soc/i2c0mux/i2c@1/imx708@1a - Selected sensor format: 2304x1296-SBGGR10_1X10 - Selected unicam format: 2304x1296-pBAA
+[0:18:18.800550955] [1597]  INFO Camera camera.cpp:1028 configuring streams: (0) 4608x2592-BGR888
+[0:18:18.801801339] [1591]  INFO RPI raspberrypi.cpp:851 Sensor: /base/soc/i2c0mux/i2c@1/imx708@1a - Selected sensor format: 2304x1296-SBGGR10_1X10 - Selected unicam format: 2304x1296-pBAA
+[0:18:22.280683382] [1597]  INFO Camera camera.cpp:1028 configuring streams: (0) 640x480-XBGR8888
+[0:18:22.283551704] [1591]  INFO RPI raspberrypi.cpp:851 Sensor: /base/soc/i2c0mux/i2c@1/imx708@1a - Selected sensor format: 2304x1296-SBGGR10_1X10 - Selected unicam format: 2304x1296-pBAA
+[0:18:23.469850507] [1597]  INFO Camera camera.cpp:1028 configuring streams: (0) 4608x2592-BGR888
+[0:18:23.471008536] [1591]  INFO RPI raspberrypi.cpp:851 Sensor: /base/soc/i2c0mux/i2c@1/imx708@1a - Selected sensor format: 2304x1296-SBGGR10_1X10 - Selected unicam format: 2304x1296-pBAA
+[0:18:26.878474830] [1597]  INFO Camera camera.cpp:1028 configuring streams: (0) 640x480-XBGR8888
+[0:18:26.881245395] [1591]  INFO RPI raspberrypi.cpp:851 Sensor: /base/soc/i2c0mux/i2c@1/imx708@1a - Selected sensor format: 2304x1296-SBGGR10_1X10 - Selected unicam format: 2304x1296-pBAA
+[0:18:28.058959015] [1597]  INFO Camera camera.cpp:1028 configuring streams: (0) 4608x2592-BGR888
+[0:18:28.060950430] [1591]  INFO RPI raspberrypi.cpp:851 Sensor: /base/soc/i2c0mux/i2c@1/imx708@1a - Selected sensor format: 2304x1296-SBGGR10_1X10 - Selected unicam format: 2304x1296-pBAA
+[0:18:31.440483331] [1597]  INFO Camera camera.cpp:1028 configuring streams: (0) 640x480-XBGR8888
+[0:18:31.443288162] [1591]  INFO RPI raspberrypi.cpp:851 Sensor: /base/soc/i2c0mux/i2c@1/imx708@1a - Selected sensor format: 2304x1296-SBGGR10_1X10 - Selected unicam format: 2304x1296-pBAA
+Setting HDR to OFF
+PEDESTRIAN DETECTED
+[0:18:39.561224733] [1597] ERROR Camera camera.cpp:526 Camera in Configured state trying acquire() requiring state Available
+Camera __init__ sequence did not complete.
+Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/picamera2/picamera2.py", line 242, in __init__
+    self._open_camera()
+  File "/usr/lib/python3/dist-packages/picamera2/picamera2.py", line 441, in _open_camera
+    raise RuntimeError(f"camera.acquire() returned unexpected code: {acq_code}")
+RuntimeError: camera.acquire() returned unexpected code: -16
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/ece2799team5/Documents/ECE 2799 TEAM 5/final.py", line 84, in <module>
+    capture_image()
+  File "/home/ece2799team5/Documents/ECE 2799 TEAM 5/final.py", line 62, in capture_image
+    picam2 = Picamera2()
+  File "/usr/lib/python3/dist-packages/picamera2/picamera2.py", line 249, in __init__
+    raise RuntimeError("Camera __init__ sequence did not complete.")
+RuntimeError: Camera __init__ sequence did not complete.
